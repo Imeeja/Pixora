@@ -61,13 +61,26 @@ function TextPanel({
 
       <div className="control-row">
         <div className="control-group">
-          <label>Font size</label>
-          <input
-            type="number"
-            defaultValue="32"
-            disabled
-          />
-        </div>
+  <label>Font size</label>
+  <input
+    type="number"
+    min="1"
+    max="300"
+    value={
+      isTextSelected
+        ? selectedObjectProperties.fontSize ?? 32
+        : 32
+    }
+    disabled={!isTextSelected}
+    onChange={(e) => {
+      const value = Number(e.target.value);
+
+      if (value >= 1 && value <= 300) {
+        updateSelectedObject({ fontSize: value });
+      }
+    }}
+  />
+</div>
 
         <div className="control-group">
           <label>Color</label>
