@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from "react";
 import { Canvas } from "fabric";
 
@@ -27,6 +28,10 @@ function useEditor() {
       text: object.text,
       fontFamily: object.fontFamily,
       fontSize: object.fontSize,
+
+      // Text style properties
+      fontWeight: object.fontWeight ?? "normal",
+      fontStyle: object.fontStyle ?? "normal",
     };
   }
 

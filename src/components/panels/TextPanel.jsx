@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { Plus, Bold, Italic } from "lucide-react";
 
 function TextPanel({
   onAddText,
@@ -47,6 +47,50 @@ function TextPanel({
           <option value="Verdana">Verdana</option>
         </select>
       </div>
+
+      <div className="control-group">
+  <label>Text style</label>
+
+  <div className="control-row">
+    <button
+      type="button"
+      className={`icon-button ${
+        selectedObjectProperties?.fontWeight === "bold" ? "active" : ""
+      }`}
+      title="Bold"
+      disabled={!isTextSelected}
+      onClick={() =>
+        updateSelectedObject({
+          fontWeight:
+            selectedObjectProperties.fontWeight === "bold"
+              ? "normal"
+              : "bold",
+        })
+      }
+    >
+      <Bold size={18} />
+    </button>
+
+    <button
+      type="button"
+      className={`icon-button ${
+        selectedObjectProperties?.fontStyle === "italic" ? "active" : ""
+      }`}
+      title="Italic"
+      disabled={!isTextSelected}
+      onClick={() =>
+        updateSelectedObject({
+          fontStyle:
+            selectedObjectProperties.fontStyle === "italic"
+              ? "normal"
+              : "italic",
+        })
+      }
+    >
+      <Italic size={18} />
+    </button>
+  </div>
+</div>
 
       <div className="control-row">
         <div className="control-group">
