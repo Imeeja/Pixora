@@ -1,16 +1,24 @@
+
 import { Plus } from "lucide-react";
 
-function TextPanel() {
+function TextPanel({ onAddText }) {
   return (
     <div className="panel-section">
-      <button className="primary-button full-button">
+      <button
+        className="primary-button full-button"
+        onClick={onAddText}
+      >
         <Plus size={17} />
         Add a text box
       </button>
 
       <div className="control-group">
         <label>Text content</label>
-        <textarea placeholder="Enter your text..." rows="3" disabled />
+        <textarea
+          placeholder="Enter your text..."
+          rows="3"
+          disabled
+        />
       </div>
 
       <div className="control-group">
@@ -30,7 +38,11 @@ function TextPanel() {
 
         <div className="control-group">
           <label>Color</label>
-          <input type="color" defaultValue="#292832" disabled />
+          <input
+            type="color"
+            defaultValue="#292832"
+            disabled
+          />
         </div>
       </div>
 
