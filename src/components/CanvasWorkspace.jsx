@@ -1,6 +1,20 @@
-import { Plus, ZoomIn, ZoomOut, Maximize } from "lucide-react";
 
-function CanvasWorkspace({ canvasElementRef }) {
+import {
+  Plus,
+  ZoomIn,
+  ZoomOut,
+  Maximize,
+  RotateCcw,
+} from "lucide-react";
+
+function CanvasWorkspace({
+  canvasElementRef,
+  zoomLevel,
+  zoomIn,
+  zoomOut,
+  resetZoom,
+  fitCanvas,
+}) {
   return (
     <section className="workspace">
       <div className="workspace-top">
@@ -25,19 +39,41 @@ function CanvasWorkspace({ canvasElementRef }) {
         <span className="canvas-dimensions">1080 × 1080 px</span>
 
         <div className="zoom-controls">
-          <button className="icon-button" title="Zoom out">
+          <button
+            className="icon-button"
+            title="Zoom out"
+            onClick={zoomOut}
+            disabled={zoomLevel <= 0.2}
+          >
             <ZoomOut size={17} />
           </button>
 
-          <span>100%</span>
+          <span>{Math.round(zoomLevel * 100)}%</span>
 
-          <button className="icon-button" title="Zoom in">
+          <button
+            className="icon-button"
+            title="Zoom in"
+            onClick={zoomIn}
+            disabled={zoomLevel >= 3}
+          >
             <ZoomIn size={17} />
           </button>
 
           <div className="header-divider" />
 
-          <button className="icon-button" title="Fit canvas">
+          <button
+            className="icon-button"
+            title="Reset zoom"
+            onClick={resetZoom}
+          >
+            <RotateCcw size={16} />
+          </button>
+
+          <button
+            className="icon-button"
+            title="Fit canvas"
+            onClick={fitCanvas}
+          >
             <Maximize size={16} />
           </button>
         </div>

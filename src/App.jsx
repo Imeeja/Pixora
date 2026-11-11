@@ -18,6 +18,11 @@ function App() {
     addObject,
     selectedObjectProperties,
     updateSelectedObject,
+    zoomLevel,
+    zoomIn,
+    zoomOut,
+    resetZoom,
+    fitCanvas,
   } = useEditor();
 
   // Add a new text object to the canvas
@@ -44,7 +49,14 @@ function App() {
           setActiveTool={setActiveTool}
         />
 
-        <CanvasWorkspace canvasElementRef={canvasElementRef} />
+        <CanvasWorkspace
+          canvasElementRef={canvasElementRef}
+          zoomLevel={zoomLevel}
+          zoomIn={zoomIn}
+          zoomOut={zoomOut}
+          resetZoom={resetZoom}
+          fitCanvas={fitCanvas}
+        />
 
         <PropertiesPanel
           activeTool={activeTool}

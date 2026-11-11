@@ -1,5 +1,5 @@
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Canvas } from "fabric";
 
 function useEditor() {
@@ -10,8 +10,11 @@ function useEditor() {
   const [selectedObjectProperties, setSelectedObjectProperties] =
     useState(null);
 
+  // Current canvas zoom level
+  const [zoomLevel, setZoomLevel] = useState(1);
+
   // Create a readable snapshot of the selected object's properties
-  function getObjectProperties(object) {
+  const getObjectProperties = useCallback((object) => {
     if (!object) return null;
 
     return {
@@ -28,20 +31,18 @@ function useEditor() {
       text: object.text,
       fontFamily: object.fontFamily,
       fontSize: object.fontSize,
-
-      // Text style properties
       fontWeight: object.fontWeight ?? "normal",
       fontStyle: object.fontStyle ?? "normal",
     };
-  }
+  }, []);
 
   // Synchronize the selected object with React
-  function syncSelection(canvas) {
+  const syncSelection = useCallback((canvas) => {
     const object = canvas.getActiveObject() ?? null;
 
     setSelectedObject(object);
     setSelectedObjectProperties(getObjectProperties(object));
-  }
+  }, [getObjectProperties]);
 
   useEffect(() => {
     if (!canvasElementRef.current) return;
@@ -55,7 +56,6 @@ function useEditor() {
 
     fabricCanvasRef.current = fabricCanvas;
 
-    // Fabric.js selection events
     const handleSelectionChange = () => {
       syncSelection(fabricCanvas);
     };
@@ -65,7 +65,6 @@ function useEditor() {
       setSelectedObjectProperties(null);
     };
 
-    // Update properties after moving, resizing, or rotating
     const handleObjectModified = () => {
       syncSelection(fabricCanvas);
     };
@@ -86,7 +85,7 @@ function useEditor() {
       fabricCanvas.dispose();
       fabricCanvasRef.current = null;
     };
-  }, []);
+  }, [syncSelection]);
 
   // Get the existing Fabric canvas
   function getCanvas() {
@@ -167,12 +166,53 @@ function useEditor() {
     setSelectedObjectProperties(null);
   }
 
+  // Apply zoom to the canvas
+  function applyZoom(value) {
+    const canvas = getCanvas();
+
+    if (!canvas) return;
+
+    const nextZoom = Math.min(
+      3,
+      Math.max(0.2, Number(value.toFixed(2)))
+    );
+
+    canvas.setZoom(nextZoom);
+    canvas.requestRenderAll();
+
+    setZoomLevel(nextZoom);
+  }
+
+  // Zoom in
+  function zoomIn() {
+    applyZoom(zoomLevel + 0.1);
+  }
+
+  // Zoom out
+  function zoomOut() {
+    applyZoom(zoomLevel - 0.1);
+  }
+
+  // Reset zoom to 100%
+  function resetZoom() {
+    applyZoom(1);
+  }
+
+  // Fit canvas to the available workspace
+  function fitCanvas() {
+    applyZoom(1);
+  }
+
   return {
     canvasElementRef,
     fabricCanvasRef,
     selectedObject,
     selectedObjectProperties,
-
+    zoomLevel,
+    zoomIn,
+    zoomOut,
+    resetZoom,
+    fitCanvas,
     getCanvas,
     addObject,
     updateSelectedObject,
