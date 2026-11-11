@@ -1,6 +1,6 @@
 import { Plus, ZoomIn, ZoomOut, Maximize } from "lucide-react";
 
-function CanvasWorkspace() {
+function CanvasWorkspace({ canvasElementRef }) {
   return (
     <section className="workspace">
       <div className="workspace-top">
@@ -17,16 +17,7 @@ function CanvasWorkspace() {
 
       <div className="canvas-area">
         <div className="canvas-placeholder">
-          <div className="canvas-paper">
-            <div className="empty-canvas-content">
-              <div className="empty-canvas-icon">
-                <Plus size={26} />
-              </div>
-
-              <h3>Your canvas is ready</h3>
-              <p>Upload an image or add text and shapes to start creating.</p>
-            </div>
-          </div>
+          <canvas ref={canvasElementRef} />
         </div>
       </div>
 
