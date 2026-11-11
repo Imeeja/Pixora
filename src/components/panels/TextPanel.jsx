@@ -1,7 +1,14 @@
 
 import { Plus } from "lucide-react";
 
-function TextPanel({ onAddText }) {
+function TextPanel({
+  onAddText,
+  selectedObjectProperties,
+  updateSelectedObject,
+}) {
+  const isTextSelected =
+    selectedObjectProperties?.objectType === "text";
+
   return (
     <div className="panel-section">
       <button
@@ -17,7 +24,11 @@ function TextPanel({ onAddText }) {
         <textarea
           placeholder="Enter your text..."
           rows="3"
-          disabled
+          value={isTextSelected ? selectedObjectProperties.text ?? "" : ""}
+          disabled={!isTextSelected}
+          onChange={(e) =>
+            updateSelectedObject({ text: e.target.value })
+          }
         />
       </div>
 
