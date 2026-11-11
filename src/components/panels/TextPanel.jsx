@@ -1,4 +1,3 @@
-
 import { Plus } from "lucide-react";
 
 function TextPanel({
@@ -6,15 +5,11 @@ function TextPanel({
   selectedObjectProperties,
   updateSelectedObject,
 }) {
-  const isTextSelected =
-    selectedObjectProperties?.objectType === "text";
+  const isTextSelected = selectedObjectProperties?.objectType === "text";
 
   return (
     <div className="panel-section">
-      <button
-        className="primary-button full-button"
-        onClick={onAddText}
-      >
+      <button className="primary-button full-button" onClick={onAddText}>
         <Plus size={17} />
         Add a text box
       </button>
@@ -24,11 +19,7 @@ function TextPanel({
         <textarea
           placeholder="Enter your text..."
           rows="3"
-          value={
-            isTextSelected
-              ? selectedObjectProperties.text ?? ""
-              : ""
-          }
+          value={isTextSelected ? (selectedObjectProperties.text ?? "") : ""}
           disabled={!isTextSelected}
           onChange={(e) =>
             updateSelectedObject({
@@ -41,9 +32,7 @@ function TextPanel({
       <div className="control-group">
         <label>Font family</label>
         <select
-          value={
-            selectedObjectProperties?.fontFamily || "Arial"
-          }
+          value={selectedObjectProperties?.fontFamily || "Arial"}
           disabled={!isTextSelected}
           onChange={(e) =>
             updateSelectedObject({
@@ -61,33 +50,36 @@ function TextPanel({
 
       <div className="control-row">
         <div className="control-group">
-  <label>Font size</label>
-  <input
-    type="number"
-    min="1"
-    max="300"
-    value={
-      isTextSelected
-        ? selectedObjectProperties.fontSize ?? 32
-        : 32
-    }
-    disabled={!isTextSelected}
-    onChange={(e) => {
-      const value = Number(e.target.value);
+          <label>Font size</label>
+          <input
+            type="number"
+            min="1"
+            max="300"
+            value={
+              isTextSelected ? (selectedObjectProperties.fontSize ?? 32) : 32
+            }
+            disabled={!isTextSelected}
+            onChange={(e) => {
+              const value = Number(e.target.value);
 
-      if (value >= 1 && value <= 300) {
-        updateSelectedObject({ fontSize: value });
-      }
-    }}
-  />
-</div>
+              if (value >= 1 && value <= 300) {
+                updateSelectedObject({ fontSize: value });
+              }
+            }}
+          />
+        </div>
 
         <div className="control-group">
           <label>Color</label>
           <input
             type="color"
-            defaultValue="#292832"
-            disabled
+            value={
+              isTextSelected
+                ? selectedObjectProperties.fill || "#292832"
+                : "#292832"
+            }
+            disabled={!isTextSelected}
+            onChange={(e) => updateSelectedObject({ fill: e.target.value })}
           />
         </div>
       </div>
