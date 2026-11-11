@@ -24,50 +24,59 @@ function TextPanel({
         <textarea
           placeholder="Enter your text..."
           rows="3"
-          value={isTextSelected ? selectedObjectProperties.text ?? "" : ""}
+          value={
+            isTextSelected
+              ? selectedObjectProperties.text ?? ""
+              : ""
+          }
           disabled={!isTextSelected}
           onChange={(e) =>
-            updateSelectedObject({ text: e.target.value })
+            updateSelectedObject({
+              text: e.target.value,
+            })
           }
         />
       </div>
 
       <div className="control-group">
         <label>Font family</label>
-        <select disabled defaultValue="Nunito">
-          <option>Nunito</option>
-          <option>Arial</option>
-          <option>Georgia</option>
+        <select
+          value={
+            selectedObjectProperties?.fontFamily || "Arial"
+          }
+          disabled={!isTextSelected}
+          onChange={(e) =>
+            updateSelectedObject({
+              fontFamily: e.target.value,
+            })
+          }
+        >
+          <option value="Arial">Arial</option>
+          <option value="Nunito">Nunito</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Times New Roman">Times New Roman</option>
+          <option value="Verdana">Verdana</option>
         </select>
       </div>
 
       <div className="control-row">
         <div className="control-group">
           <label>Font size</label>
-          <input type="number" defaultValue="32" disabled />
+          <input
+            type="number"
+            defaultValue="32"
+            disabled
+          />
         </div>
 
-        
-<div className="control-group">
-  <label>Font family</label>
-
-  <select
-    value={selectedObjectProperties?.fontFamily || "Arial"}
-    disabled={!isTextSelected}
-    onChange={(e) =>
-      updateSelectedObject({
-        fontFamily: e.target.value,
-      })
-    }
-  >
-    <option value="Arial">Arial</option>
-    <option value="Nunito">Nunito</option>
-    <option value="Georgia">Georgia</option>
-    <option value="Times New Roman">Times New Roman</option>
-    <option value="Verdana">Verdana</option>
-  </select>
-</div>
-
+        <div className="control-group">
+          <label>Color</label>
+          <input
+            type="color"
+            defaultValue="#292832"
+            disabled
+          />
+        </div>
       </div>
 
       <p className="panel-hint">
