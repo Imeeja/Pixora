@@ -47,14 +47,27 @@ function TextPanel({
           <input type="number" defaultValue="32" disabled />
         </div>
 
-        <div className="control-group">
-          <label>Color</label>
-          <input
-            type="color"
-            defaultValue="#292832"
-            disabled
-          />
-        </div>
+        
+<div className="control-group">
+  <label>Font family</label>
+
+  <select
+    value={selectedObjectProperties?.fontFamily || "Arial"}
+    disabled={!isTextSelected}
+    onChange={(e) =>
+      updateSelectedObject({
+        fontFamily: e.target.value,
+      })
+    }
+  >
+    <option value="Arial">Arial</option>
+    <option value="Nunito">Nunito</option>
+    <option value="Georgia">Georgia</option>
+    <option value="Times New Roman">Times New Roman</option>
+    <option value="Verdana">Verdana</option>
+  </select>
+</div>
+
       </div>
 
       <p className="panel-hint">
