@@ -1,4 +1,7 @@
+
 import { useState } from "react";
+import { Textbox } from "fabric";
+
 import useEditor from "./hooks/useEditor";
 import Header from "./components/Header";
 import Toolbar from "./components/Toolbar";
@@ -10,18 +13,57 @@ import "./App.css";
 function App() {
   const [activeTool, setActiveTool] = useState("upload");
 
-  const { canvasElementRef } = useEditor();
+  const {
+    canvasElementRef,
+    addObject,
+    selectedObjectProperties,
+    updateSelectedObject,
+    zoomLevel,
+    zoomIn,
+    zoomOut,
+    resetZoom,
+    fitCanvas,
+  } = useEditor();
+
+  // Add a new text object to the canvas
+  function handleAddText() {
+    const text = new Textbox("Your text", {
+      left: 100,
+      top: 100,
+      width: 350,
+      fontSize: 32,
+      fontFamily: "Arial",
+      fill: "#292832",
+    });
+
+    addObject(text, "text");
+  }
 
   return (
     <div className="app">
       <Header />
 
       <main className="editor-layout">
-        <Toolbar activeTool={activeTool} setActiveTool={setActiveTool} />
+        <Toolbar
+          activeTool={activeTool}
+          setActiveTool={setActiveTool}
+        />
 
-        <CanvasWorkspace canvasElementRef={canvasElementRef} />
+        <CanvasWorkspace
+          canvasElementRef={canvasElementRef}
+          zoomLevel={zoomLevel}
+          zoomIn={zoomIn}
+          zoomOut={zoomOut}
+          resetZoom={resetZoom}
+          fitCanvas={fitCanvas}
+        />
 
-        <PropertiesPanel activeTool={activeTool} />
+        <PropertiesPanel
+          activeTool={activeTool}
+          onAddText={handleAddText}
+          selectedObjectProperties={selectedObjectProperties}
+          updateSelectedObject={updateSelectedObject}
+        />
       </main>
     </div>
   );

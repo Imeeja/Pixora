@@ -1,36 +1,130 @@
-import { Plus } from "lucide-react";
+import { Plus, Bold, Italic } from "lucide-react";
 
-function TextPanel() {
+function TextPanel({
+  onAddText,
+  selectedObjectProperties,
+  updateSelectedObject,
+}) {
+  const isTextSelected = selectedObjectProperties?.objectType === "text";
+
   return (
     <div className="panel-section">
-      <button className="primary-button full-button">
+      <button className="primary-button full-button" onClick={onAddText}>
         <Plus size={17} />
         Add a text box
       </button>
 
       <div className="control-group">
         <label>Text content</label>
-        <textarea placeholder="Enter your text..." rows="3" disabled />
+        <textarea
+          placeholder="Enter your text..."
+          rows="3"
+          value={isTextSelected ? (selectedObjectProperties.text ?? "") : ""}
+          disabled={!isTextSelected}
+          onChange={(e) =>
+            updateSelectedObject({
+              text: e.target.value,
+            })
+          }
+        />
       </div>
 
       <div className="control-group">
         <label>Font family</label>
-        <select disabled defaultValue="Nunito">
-          <option>Nunito</option>
-          <option>Arial</option>
-          <option>Georgia</option>
+        <select
+          value={selectedObjectProperties?.fontFamily || "Arial"}
+          disabled={!isTextSelected}
+          onChange={(e) =>
+            updateSelectedObject({
+              fontFamily: e.target.value,
+            })
+          }
+        >
+          <option value="Arial">Arial</option>
+          <option value="Nunito">Nunito</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Times New Roman">Times New Roman</option>
+          <option value="Verdana">Verdana</option>
         </select>
       </div>
+
+      <div className="control-group">
+  <label>Text style</label>
+
+  <div className="control-row">
+    <button
+      type="button"
+      className={`icon-button ${
+        selectedObjectProperties?.fontWeight === "bold" ? "active" : ""
+      }`}
+      title="Bold"
+      disabled={!isTextSelected}
+      onClick={() =>
+        updateSelectedObject({
+          fontWeight:
+            selectedObjectProperties.fontWeight === "bold"
+              ? "normal"
+              : "bold",
+        })
+      }
+    >
+      <Bold size={18} />
+    </button>
+
+    <button
+      type="button"
+      className={`icon-button ${
+        selectedObjectProperties?.fontStyle === "italic" ? "active" : ""
+      }`}
+      title="Italic"
+      disabled={!isTextSelected}
+      onClick={() =>
+        updateSelectedObject({
+          fontStyle:
+            selectedObjectProperties.fontStyle === "italic"
+              ? "normal"
+              : "italic",
+        })
+      }
+    >
+      <Italic size={18} />
+    </button>
+  </div>
+</div>
 
       <div className="control-row">
         <div className="control-group">
           <label>Font size</label>
-          <input type="number" defaultValue="32" disabled />
+          <input
+            type="number"
+            min="1"
+            max="300"
+            value={
+              isTextSelected ? (selectedObjectProperties.fontSize ?? 32) : 32
+            }
+            disabled={!isTextSelected}
+            onChange={(e) => {
+              const value = Number(e.target.value);
+
+              if (value >= 1 && value <= 300) {
+                updateSelectedObject({ fontSize: value });
+              }
+            }}
+          />
         </div>
 
         <div className="control-group">
           <label>Color</label>
-          <input type="color" defaultValue="#292832" disabled />
+          <input
+            type="color"
+            value={
+              isTextSelected
+                ? selectedObjectProperties.fill || "#292832"
+                : "#292832"
+            }
+            disabled={!isTextSelected}
+            onChange={(e) => updateSelectedObject({ fill: e.target.value })}
+          />
         </div>
       </div>
 

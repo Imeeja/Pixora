@@ -1,16 +1,28 @@
+
 import UploadPanel from "./panels/UploadPanel";
 import TextPanel from "./panels/TextPanel";
 import ShapesPanel from "./panels/ShapesPanel";
 import AdjustmentsPanel from "./panels/AdjustmentsPanel";
 
-const panels = {
-  upload: UploadPanel,
-  text: TextPanel,
-  shapes: ShapesPanel,
-  adjustments: AdjustmentsPanel,
-};
+function PropertiesPanel({
+  activeTool,
+  onAddText,
+  selectedObjectProperties,
+  updateSelectedObject,
+}) {
+  const panels = {
+    upload: UploadPanel,
+    text: () => (
+      <TextPanel
+        onAddText={onAddText}
+        selectedObjectProperties={selectedObjectProperties}
+        updateSelectedObject={updateSelectedObject}
+      />
+    ),
+    shapes: ShapesPanel,
+    adjustments: AdjustmentsPanel,
+  };
 
-function PropertiesPanel({ activeTool }) {
   const ActivePanel = panels[activeTool];
 
   return (
@@ -21,6 +33,7 @@ function PropertiesPanel({ activeTool }) {
             ? "Adjustments"
             : activeTool.charAt(0).toUpperCase() + activeTool.slice(1)}
         </h3>
+
         <span>PROPERTIES</span>
       </div>
 
